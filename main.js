@@ -1,7 +1,7 @@
-// TODO: Refactor (get character data, get homeworld data, get species data, update info last)
-
 const url = 'https://swapi.co/api/people/';
 
+let charInfo;
+let homeInfo;
 let birthYear = document.querySelector('#birthYear');
 let gender = document.querySelector('#gender');
 let height = document.querySelector('#height');
@@ -38,29 +38,19 @@ const getCharacter = () => {
     console.log(networkError.message);
   }).then(jsonResponse => {
     console.log(jsonResponse);
-    updateInfo(jsonResponse);
-
-    fetch(jsonResponse.homeworld).then(response => {
-      if (response.ok) {
-        return response.json();
-      }
-      throw new Error('Homeworld request failed');
-    }, networkError => {
-      console.log(networkError.message);
-    }).then(homeworldJsonResponse => {
-      updateHomeworld(homeworldJsonResponse);
-    });
-
-    fetch(jsonResponse.species[0]).then(response => {
-      if (response.ok) {
-        return response.json();
-      }
-      throw new Error('Species request failed');
-    }, networkError => {
-      console.log(networkError.message);
-    }).then(speciesJsonResponse => {
-      updateSpecies(speciesJsonResponse);
-    });
+    charInfo = jsonResponse;
+    return fetch(charInfo.homeworld);
+  }).then(response => {
+    return response.json();
+  }).then(homeworldJsonResponse => {
+    homeInfo = homeworldJsonResponse;
+    return fetch(charInfo.species[0]);
+  }).then(response => {
+    return response.json();
+  }).then(speciesJsonResponse => {
+    updateSpecies(speciesJsonResponse);
+    updateHomeworld(homeInfo);
+    updateInfo(charInfo);
   })
 };
 
