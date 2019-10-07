@@ -8,6 +8,8 @@ let height = document.querySelector('#height');
 let homeworld = document.querySelector('#homeworld');
 let mass = document.querySelector('#mass');
 let name = document.querySelector('#name');
+let eyeColor = document.querySelector('#eye-color');
+let hairColor = document.querySelector('#hair-color');
 
 const updateInfo = charData => {
   birthYear.innerText = `Born: ${charData.birth_year}`;
@@ -15,6 +17,8 @@ const updateInfo = charData => {
   height.innerText = `Height (in cm): ${charData.height}`;
   mass.innerText = `Mass (in kg): ${charData.mass}`;
   name.innerText = charData.name;
+  eyeColor.innerText = `Eye-color: ${charData.eye_color}`;
+  hairColor.innerText = `Hair-color: ${charData.hair_color}`;
 }
 
 const updateHomeworld = homeData => {
