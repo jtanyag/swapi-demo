@@ -1,7 +1,11 @@
+// API with Star Wars character info
 const url = 'https://swapi.co/api/people/';
 
+// Declare variables where data will be saved
 let charInfo;
 let homeInfo;
+
+// Declare variables where data will be displayed in HTML
 let birthYear = document.querySelector('#birthYear');
 let gender = document.querySelector('#gender');
 let height = document.querySelector('#height');
@@ -33,6 +37,7 @@ const getCharacter = () => {
   let num = Math.floor((Math.random() * 88) + 1);
   const endpoint = `${url}${num}`;
 
+  // Character info fetched from endpoint
   fetch(endpoint).then(response => {
     if (response.ok) {
       return response.json();
@@ -42,16 +47,21 @@ const getCharacter = () => {
     console.log(networkError.message);
   }).then(jsonResponse => {
     console.log(jsonResponse);
+    // Character data saved in variable declared earlier
     charInfo = jsonResponse;
+    // Fetch homeworld data from endpoint in charInfo
     return fetch(charInfo.homeworld);
   }).then(response => {
     return response.json();
   }).then(homeworldJsonResponse => {
+    // Homeworld data saved in variable declared earlier
     homeInfo = homeworldJsonResponse;
+    // Fetch species data from endpoint in charInfo
     return fetch(charInfo.species[0]);
   }).then(response => {
     return response.json();
   }).then(speciesJsonResponse => {
+    // Update all info together
     updateSpecies(speciesJsonResponse);
     updateHomeworld(homeInfo);
     updateInfo(charInfo);
